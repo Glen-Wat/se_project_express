@@ -27,10 +27,9 @@ const createUser = (req, res) => {
     .catch((err) => {
       console.error(err);
       if (err.name === "ValidationError") {
-        res.status(BAD_REQUEST).send({ message: err.message });
-        return;
+        return res.status(BAD_REQUEST).send({ message: err.message });
       } else {
-        res.status(SERVER_ERROR).send({ message: err.message });
+        return res.status(SERVER_ERROR).send({ message: err.message });
       }
     });
 };
@@ -43,16 +42,13 @@ const getUser = (req, res) => {
     .catch((err) => {
       console.error(err);
       if (err.name === "DocumentNotFoundError") {
-        res.status(NOT_FOUND).send({ message: err.message });
-        return;
+        return res.status(NOT_FOUND).send({ message: err.message });
       } else if (err.name === "ValidationError") {
-        res.status(BAD_REQUEST).send({ message: err.message });
-        return;
+        return res.status(BAD_REQUEST).send({ message: err.message });
       } else if (err.name === "CastError") {
-        res.status(BAD_REQUEST).send({ message: err.message });
-        return;
+        return res.status(BAD_REQUEST).send({ message: err.message });
       } else {
-        res.status(SERVER_ERROR).send({ message: err.message });
+        return res.status(SERVER_ERROR).send({ message: err.message });
       }
     });
 };
