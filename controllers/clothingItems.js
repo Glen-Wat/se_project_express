@@ -12,7 +12,9 @@ const getItems = (req, res) => {
     .then((items) => res.status(200).send(items))
     .catch((err) => {
       console.error(err);
-      res.status(SERVER_ERROR).send({ message: err.message });
+      res
+        .status(SERVER_ERROR)
+        .send({ message: "An error has occurred on the server" });
     });
 };
 
@@ -27,9 +29,11 @@ const createItem = (req, res) => {
     .catch((err) => {
       console.error(err);
       if (err.name === "ValidationError") {
-        return res.status(BAD_REQUEST).send({ message: err.message });
+        return res.status(BAD_REQUEST).send({ message: "Invalid data" });
       } else {
-        res.status(SERVER_ERROR).send({ message: err.message });
+        res
+          .status(SERVER_ERROR)
+          .send({ message: "An error has occurred on the server" });
       }
     });
 };
@@ -44,33 +48,37 @@ const getItem = (req, res) => {
     .catch((err) => {
       console.error(err);
       if (err.name === "DocumentNotFoundError") {
-        return res.status(NOT_FOUND).send({ message: err.message });
+        return res.status(NOT_FOUND).send({ message: "Not Found" });
       } else if (err.name === "CastError") {
-        return res.status(BAD_REQUEST).send({ message: err.message });
+        return res.status(BAD_REQUEST).send({ message: "Invalid data" });
       } else {
-        res.status(SERVER_ERROR).send({ message: err.message });
+        res
+          .status(SERVER_ERROR)
+          .send({ message: "An error has occurred on the server" });
       }
     });
 };
 
-const updateItem = (req, res) => {
-  const { itemId } = req.params;
-  const { imageUrl } = req.body;
+//const updateItem = (req, res) => {
+// const { itemId } = req.params;
+//const { imageUrl } = req.body;
 
-  ClothingItem.findByIdAndUpdate(itemId, { $set: { imageUrl } })
-    .orFail()
-    .then((item) => res.status(200).send(item))
-    .catch((err) => {
-      console.error(err);
-      if (err.name === "DocumentNotFoundError") {
-        return res.status(NOT_FOUND).send({ message: err.message });
-      } else if (err.name === "CastError") {
-        return res.status(BAD_REQUEST).send({ message: err.message });
-      } else {
-        res.status(SERVER_ERROR).send({ message: err.message });
-      }
-    });
-};
+//ClothingItem.findByIdAndUpdate(itemId, { $set: { imageUrl } })
+//.orFail()
+//.then((item) => res.status(200).send(item))
+//.catch((err) => {
+// console.error(err);
+// if (err.name === "DocumentNotFoundError") {
+// return res.status(NOT_FOUND).send({ message: "Not found" });
+// } else if (err.name === "CastError") {
+// return res.status(BAD_REQUEST).send({ message: "Invalid data" });
+// } else {
+// res
+// .status(SERVER_ERROR)
+// .send({ message: "An error has occurred on the server" });
+//  }
+//  });
+// };
 
 const deleteItem = (req, res) => {
   const { itemId } = req.params;
@@ -94,9 +102,11 @@ const deleteItem = (req, res) => {
     .catch((err) => {
       console.error(err);
       if (err.name === "CastError") {
-        return res.status(BAD_REQUEST).send({ message: err.message });
+        return res.status(BAD_REQUEST).send({ message: "Invalid data" });
       } else {
-        res.status(SERVER_ERROR).send({ message: err.message });
+        res
+          .status(SERVER_ERROR)
+          .send({ message: "An error has occurred on the server" });
       }
     });
 };
@@ -112,11 +122,13 @@ const addLike = (req, res) => {
     .catch((err) => {
       console.error(err);
       if (err.name === "CastError") {
-        return res.status(BAD_REQUEST).send({ message: err.message });
+        return res.status(BAD_REQUEST).send({ message: "Invalid data" });
       } else if (err.name === "DocumentNotFoundError") {
-        return res.status(NOT_FOUND).send({ message: err.message });
+        return res.status(NOT_FOUND).send({ message: "Not found" });
       }
-      return res.status(SERVER_ERROR).send({ message: err.message });
+      return res
+        .status(SERVER_ERROR)
+        .send({ message: "An error has occurred on the server" });
     });
 };
 
@@ -133,11 +145,13 @@ const removeLike = (req, res) => {
     .catch((err) => {
       console.error(err);
       if (err.name === "DocumentNotFoundError") {
-        return res.status(NOT_FOUND).send({ message: err.message });
+        return res.status(NOT_FOUND).send({ message: "Not found" });
       } else if (err.name === "CastError") {
-        return res.status(BAD_REQUEST).send({ message: err.message });
+        return res.status(BAD_REQUEST).send({ message: "Invalid data" });
       } else {
-        res.status(SERVER_ERROR).send({ message: err.message });
+        res
+          .status(SERVER_ERROR)
+          .send({ message: "An error has occurred on the server" });
       }
     });
 };
