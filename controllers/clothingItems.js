@@ -159,7 +159,7 @@ const removeLike = (req, res) => {
 module.exports = {
   createItem,
   getItem,
-  updateItem,
+
   deleteItem,
   addLike,
   removeLike,

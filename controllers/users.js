@@ -6,10 +6,11 @@ const getUsers = (req, res) => {
     .then((users) => res.status(200).send(users))
     .catch((err) => {
       console.error(err);
+
+      res
+        .status(SERVER_ERROR)
+        .send({ message: "An error has occurred on the server" });
     });
-  res
-    .status(SERVER_ERROR)
-    .send({ message: "An error has occurred on the server" });
 };
 
 const createUser = (req, res) => {
