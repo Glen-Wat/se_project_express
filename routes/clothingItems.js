@@ -16,7 +16,6 @@ router.get("/", getItems);
 
 router.get("/:itemId", getItem);
 
-router.put("/:itemId");
 router.put("/:itemId/likes", addLike);
 
 router.delete("/:itemId", deleteItem);
