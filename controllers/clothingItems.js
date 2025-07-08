@@ -61,27 +61,6 @@ const getItem = (req, res) => {
     });
 };
 
-// const updateItem = (req, res) => {
-// const { itemId } = req.params;
-// const { imageUrl } = req.body;
-
-// ClothingItem.findByIdAndUpdate(itemId, { $set: { imageUrl } })
-// .orFail()
-// .then((item) => res.status(200).send(item))
-// .catch((err) => {
-// console.error(err);
-// if (err.name === "DocumentNotFoundError") {
-// return res.status(NOT_FOUND).send({ message: "Not found" });
-// } else if (err.name === "CastError") {
-// return res.status(BAD_REQUEST).send({ message: "Invalid data" });
-// } else {
-// res
-// .status(SERVER_ERROR)
-// .send({ message: "An error has occurred on the server" });
-//  }
-//  });
-//  };
-
 const deleteItem = (req, res) => {
   const { itemId } = req.params;
   const userId = req.user._id;
