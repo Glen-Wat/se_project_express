@@ -40,27 +40,6 @@ const createItem = (req, res) => {
 
 // GET / items
 
-const getItem = (req, res) => {
-  const { itemId } = req.params;
-  ClothingItem.findById(itemId)
-    .orFail()
-    .then((items) => res.status(200).send(items))
-    .catch((err) => {
-      console.error(err);
-      if (err.name === "DocumentNotFoundError") {
-        res.status(NOT_FOUND).send({ message: "Not Found" });
-        return;
-      }
-      if (err.name === "CastError") {
-        res.status(BAD_REQUEST).send({ message: "Invalid data" });
-        return;
-      }
-      res
-        .status(SERVER_ERROR)
-        .send({ message: "An error has occurred on the server" });
-    });
-};
-
 const deleteItem = (req, res) => {
   const { itemId } = req.params;
   const userId = req.user._id;
@@ -146,7 +125,6 @@ const removeLike = (req, res) => {
 
 module.exports = {
   createItem,
-  getItem,
 
   deleteItem,
   addLike,

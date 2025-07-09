@@ -10,18 +10,6 @@ const {
   CONFLICT,
 } = require("../utils/errors");
 
-const getUsers = (req, res) => {
-  User.find({})
-    .then((users) => res.status(200).send(users))
-    .catch((err) => {
-      console.error(err);
-
-      res
-        .status(SERVER_ERROR)
-        .send({ message: "An error has occurred on the server" });
-    });
-};
-
 const createUser = (req, res) => {
   const { name, avatar, email, password } = req.body;
   bcrypt
@@ -76,21 +64,19 @@ const login = (req, res) => {
     });
 };
 
-const getUser = (req, res) => {
-  const { userId } = req.params;
+const getCurrentUser = (req, res) => {
+  const userId = req.user._id;
   User.findById(userId)
     .orFail()
-    .then((user) => res.status(200).send(user))
+    .then((user) => {
+      if (!user) {
+        return res.status(NOT_FOUND).send({ message: "Not found" });
+      }
+      return res.status(200).send(user);
+    })
     .catch((err) => {
       console.error(err);
-      if (err.name === "DocumentNotFoundError") {
-        res.status(NOT_FOUND).send({ message: "Not found" });
-        return;
-      }
-      if (err.name === "ValidationError") {
-        res.status(BAD_REQUEST).send({ message: "Invalid data" });
-        return;
-      }
+
       if (err.name === "CastError") {
         res.status(BAD_REQUEST).send({ message: "Invalid data" });
         return;
@@ -101,7 +87,7 @@ const getUser = (req, res) => {
     });
 };
 
-const updateGetUser = (req, res) => {
+const updateCurrentUser = (req, res) => {
   const userId = req.user._id;
   const { name, avatar } = req.body;
 
@@ -129,4 +115,4 @@ const updateGetUser = (req, res) => {
     });
 };
 
-module.exports = { getUsers, createUser, getUser, login, updateGetUser };
+module.exports = { createUser, getCurrentUser, login, updateCurrentUser };
