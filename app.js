@@ -4,29 +4,43 @@ const cors = require("cors");
 const mainRouter = require("./routes/index");
 const auth = require("./middlewares/auth");
 
-const app = express();
+const { errors } = require("celebrate");
+
+require("dotenv").config();
+
 const { PORT = 3001 } = process.env;
-const { login, createUser } = require("./controllers/users");
+const { requestLogger, errorLogger } = require("./middlewares/logger");
+const errorHandler = require("./middlewares/error-handler");
 
+const {
+  validateLogin,
+  validateCreateUser,
+} = require("./middlewares/validation");
+
+const app = express();
 app.use(express.json());
-app.use(cors());
-
-app.post("/signin", login);
-app.post("/signup", createUser);
-
-app.get("/items", require("./controllers/clothingItems").getItems);
-
-app.use(auth);
-
-app.use("/", mainRouter);
-
-app.use((err, req, res, next) => {
-  const { statusCode = 500, message } = err;
-  res.status(statusCode).send({
-    message: statusCode === 500 ? "Internal Server Error" : message,
-  });
+app.use((req, res, next) => {
+  console.log("Incoming request body:", req.body);
   next();
 });
+
+app.use(cors());
+app.use(requestLogger);
+
+app.post("/signin", validateLogin, require("./controllers/users").login);
+app.post(
+  "/signup",
+  validateCreateUser,
+  require("./controllers/users").createUser
+);
+
+app.get("/items", require("./controllers/clothingItems").getItems);
+app.use(auth);
+app.use("/", mainRouter);
+
+app.use(errorLogger);
+app.use(errors());
+app.use(errorHandler);
 
 mongoose
   .connect("mongodb://127.0.0.1:27017/wtwr_db")
