@@ -17,9 +17,11 @@ const clothingItemSchema = new mongoose.Schema({
     type: String,
     required: true,
     validate: {
-      validator(value) {
-        return validator.isURL(value);
-      },
+      validator: (value) =>
+        validator.isURL(value, {
+          protocols: ["http", "https"],
+          require_protocol: true,
+        }),
       message: "You must enter a valid URL.",
     },
   },
@@ -32,7 +34,6 @@ const clothingItemSchema = new mongoose.Schema({
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "user",
-      required: true,
     },
   ],
   createdAt: {

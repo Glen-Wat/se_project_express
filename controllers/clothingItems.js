@@ -20,14 +20,13 @@ const getItems = (req, res, next) => {
 
 const createItem = (req, res, next) => {
   const { name, weather, imageUrl } = req.body;
-  const owner = req.user._id;
 
   console.log("Debug: Request body before validation:", req.body);
 
-  ClothingItem.create({ name, weather, imageUrl, owner })
+  ClothingItem.create({ name, weather, imageUrl, owner: req.user._id })
     .then((item) => res.status(201).send(item))
     .catch((err) => {
-      console.error(err);
+      console.error("Create item error", err);
       if (err.name === "ValidationError") {
         return next(new BadRequestError(ERROR_MESSAGES.BAD_REQUEST.message));
       }

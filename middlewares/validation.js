@@ -1,12 +1,19 @@
 const { Joi, celebrate } = require("celebrate");
 const validator = require("validator");
+console.log("validator.isURL type:", typeof validator.isURL);
 
 const validateURL = (value, helpers) => {
-  if (validator.isURL(value)) {
+  if (
+    validator.isURL(value, {
+      protocols: ["http", "https"],
+      require_protocol: true,
+    })
+  ) {
     return value;
   }
   return helpers.error("string.uri");
 };
+
 //1 clothing item validation
 const validateClothingItem = celebrate({
   body: Joi.object().keys({
@@ -17,7 +24,7 @@ const validateClothingItem = celebrate({
     }),
     imageUrl: Joi.string().required().custom(validateURL).messages({
       "string.empty": 'The "imageUrl" field must be filled in',
-      "string.uri": 'the "imageUrl" field must be a valid url',
+      "string.uri": 'The "imageUrl" field must be a valid URL',
     }),
     weather: Joi.string().valid("hot", "warm", "cold").required(),
   }),
