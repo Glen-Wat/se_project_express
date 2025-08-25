@@ -5,7 +5,7 @@ const User = require("../models/user");
 const {
   BadRequestError,
   UnauthorizedError,
-  ForbiddenError,
+
   NotFoundError,
   ConflictError,
   ERROR_MESSAGES,

@@ -1,10 +1,9 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const { errors } = require("celebrate");
 const mainRouter = require("./routes/index");
 const auth = require("./middlewares/auth");
-
-const { errors } = require("celebrate");
 
 require("dotenv").config();
 
@@ -20,7 +19,6 @@ const {
 const app = express();
 app.use(express.json());
 app.use((req, res, next) => {
-  console.log("Incoming request body:", req.body);
   next();
 });
 
@@ -41,6 +39,7 @@ app.post(
 );
 
 app.get("/items", require("./controllers/clothingItems").getItems);
+
 app.use(auth);
 app.use("/", mainRouter);
 

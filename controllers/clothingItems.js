@@ -48,15 +48,13 @@ const deleteItem = (req, res, next) => {
       if (item.owner.toString() !== userId) {
         return next(new ForbiddenError(ERROR_MESSAGES.FORBIDDEN.message));
       }
-      ClothingItem.findByIdAndDelete(itemId)
+      return ClothingItem.findByIdAndDelete(itemId)
         .orFail()
         .then((deletedItem) =>
           res.status(200).send({ message: "Item Deleted", item: deletedItem })
         );
     })
-
     .catch((err) => {
-      console.error(err);
       if (err.name === "CastError") {
         return next(new BadRequestError(ERROR_MESSAGES.BAD_REQUEST.message));
       }

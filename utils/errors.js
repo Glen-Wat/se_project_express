@@ -1,3 +1,9 @@
+const BadRequestError = require("../errors/BadRequestError");
+const UnauthorizedError = require("../errors/UnauthorizedError");
+const ForbiddenError = require("../errors/ForbiddenError");
+const NotFoundError = require("../errors/NotFoundError");
+const ConflictError = require("../errors/ConflictError");
+
 const ERROR_MESSAGES = {
   BAD_REQUEST: {
     status: 400,
@@ -24,37 +30,6 @@ const ERROR_MESSAGES = {
     message: "Internal Server Error",
   },
 };
-
-class BadRequestError extends Error {
-  constructor(message) {
-    super(message);
-    this.statusCode = 400;
-  }
-}
-class UnauthorizedError extends Error {
-  constructor(message) {
-    super(message);
-    this.statusCode = 401;
-  }
-}
-class ForbiddenError extends Error {
-  constructor(message) {
-    super(message);
-    this.statusCode = 403;
-  }
-}
-class NotFoundError extends Error {
-  constructor(message) {
-    super(message);
-    this.statusCode = 404;
-  }
-}
-class ConflictError extends Error {
-  constructor(message) {
-    super(message);
-    this.statusCode = 409;
-  }
-}
 
 module.exports = {
   ERROR_MESSAGES,

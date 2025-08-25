@@ -1,6 +1,5 @@
 const { Joi, celebrate } = require("celebrate");
 const validator = require("validator");
-console.log("validator.isURL type:", typeof validator.isURL);
 
 const validateURL = (value, helpers) => {
   if (
@@ -14,7 +13,7 @@ const validateURL = (value, helpers) => {
   return helpers.error("string.uri");
 };
 
-//1 clothing item validation
+// 1. clothing item validation
 const validateClothingItem = celebrate({
   body: Joi.object().keys({
     name: Joi.string().required().min(2).max(30).messages({
@@ -30,7 +29,7 @@ const validateClothingItem = celebrate({
   }),
 });
 
-//2 creat user validation
+// 2. creat user validation
 const validateCreateUser = celebrate({
   body: Joi.object().keys({
     name: Joi.string().min(2).max(30).messages({
